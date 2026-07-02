@@ -33,8 +33,14 @@ exports.login = async (req, res) => {
       user: { id: user._id, name: user.name, email: user.email, role: user.role, avatar: user.avatar }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
+  console.error("LOGIN ERROR:", error);
+
+  res.status(500).json({
+    success: false,
+    message: error.message,
+    stack: process.env.NODE_ENV === "development" ? error.stack : undefined
+  });
+}
 };
 
 exports.getMe = async (req, res) => {
